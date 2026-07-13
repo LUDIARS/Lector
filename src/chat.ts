@@ -12,10 +12,14 @@ export function detectChatSourceByUrl(url: string): ChatExtractionSource | null 
   if (!url) return null;
   let host = '';
   try { host = new URL(url).hostname.toLowerCase(); } catch { return null; }
-  if (host.endsWith('chatgpt.com') || host.endsWith('chat.openai.com')) return 'chatgpt';
-  if (host.endsWith('claude.ai')) return 'claude';
-  if (host.endsWith('gemini.google.com')) return 'gemini';
+  if (isTrustedHostname(host, 'chatgpt.com') || isTrustedHostname(host, 'chat.openai.com')) return 'chatgpt';
+  if (isTrustedHostname(host, 'claude.ai')) return 'claude';
+  if (isTrustedHostname(host, 'gemini.google.com')) return 'gemini';
   return null;
+}
+
+function isTrustedHostname(host: string, domain: string): boolean {
+  return host === domain || host.endsWith(`.${domain}`);
 }
 
 export function extractChatMessages(html: string, source: ChatExtractionSource): ChatExtractedMessage[] {

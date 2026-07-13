@@ -10,7 +10,11 @@ export function isNotionUrl(url: string): boolean {
   if (!url) return false;
   let host = '';
   try { host = new URL(url).hostname.toLowerCase(); } catch { return false; }
-  return host.endsWith('notion.so') || host.endsWith('notion.site');
+  return isTrustedHostname(host, 'notion.so') || isTrustedHostname(host, 'notion.site');
+}
+
+function isTrustedHostname(host: string, domain: string): boolean {
+  return host === domain || host.endsWith(`.${domain}`);
 }
 
 export function extractNotionTitle(html: string): string {
