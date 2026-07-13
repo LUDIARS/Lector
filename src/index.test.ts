@@ -22,8 +22,12 @@ describe('detectReparseKind', () => {
 describe('isNotionUrl', () => {
   it('notion.so / notion.site のみ true', () => {
     expect(isNotionUrl('https://notion.so/x')).toBe(true);
+    expect(isNotionUrl('https://www.notion.so/x')).toBe(true);
+    expect(isNotionUrl('https://notion.site/x')).toBe(true);
     expect(isNotionUrl('https://foo.notion.site/x')).toBe(true);
     expect(isNotionUrl('https://notion.so.evil.com/x')).toBe(false);
+    expect(isNotionUrl('https://evilnotion.so/x')).toBe(false);
+    expect(isNotionUrl('https://evilnotion.site/x')).toBe(false);
     expect(isNotionUrl('not-a-url')).toBe(false);
   });
 });
@@ -62,8 +66,16 @@ describe('extractNotionBlocks', () => {
 describe('chat 抽出', () => {
   it('detectChatSourceByUrl が host を判別する', () => {
     expect(detectChatSourceByUrl('https://chatgpt.com/c/1')).toBe('chatgpt');
+    expect(detectChatSourceByUrl('https://www.chatgpt.com/c/1')).toBe('chatgpt');
+    expect(detectChatSourceByUrl('https://chat.openai.com/c/1')).toBe('chatgpt');
+    expect(detectChatSourceByUrl('https://foo.chat.openai.com/c/1')).toBe('chatgpt');
     expect(detectChatSourceByUrl('https://claude.ai/x')).toBe('claude');
+    expect(detectChatSourceByUrl('https://www.claude.ai/x')).toBe('claude');
     expect(detectChatSourceByUrl('https://gemini.google.com/x')).toBe('gemini');
+    expect(detectChatSourceByUrl('https://foo.gemini.google.com/x')).toBe('gemini');
+    expect(detectChatSourceByUrl('https://evilchatgpt.com/c/1')).toBeNull();
+    expect(detectChatSourceByUrl('https://evilclaude.ai/x')).toBeNull();
+    expect(detectChatSourceByUrl('https://evilgemini.google.com/x')).toBeNull();
     expect(detectChatSourceByUrl('https://example.com')).toBeNull();
   });
 
