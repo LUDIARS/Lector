@@ -1,0 +1,11 @@
+{
+  "name": "content-sources",
+  "description": "取り込み元。 Notion / チャットからの読み取りと正規化。",
+  "presetRules": [],
+  "templateRules": [],
+  "membership": [
+    {
+      "pathPattern": "(^|/)src/(?:notion|chat)\\.ts$"
+    }
+  ]
+}

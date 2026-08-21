@@ -1,0 +1,11 @@
+{
+  "name": "library-core",
+  "description": "ライブラリの中核。 公開 API と共通型、 自動テスト。",
+  "presetRules": [],
+  "templateRules": [],
+  "membership": [
+    {
+      "pathPattern": "(^|/)src/(?:index|types)(?:\\.test)?\\.ts$"
+    }
+  ]
+}
